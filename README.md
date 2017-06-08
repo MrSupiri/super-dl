@@ -22,8 +22,9 @@ Although although youtube and direct download only torrent support will be added
 </ul>
 
 # How to Use
-
-This is still in Beta version so there is no GUI<br>
-To add the youtubers you want download DB Browser for SQLite and date the super-dl.db<br>
-Once you add your favorite youtubers and their <a href="http://dev.zype.com/posts/2014/11/04/finding-youtube-channel-id/">channel id</a>  to youtubers table in the super-dl.db<br>
-Save it and Run the start.sh, This will create a screen season named super-dl and run in the background till the Raspberry Pi is turned off<br>
+<ul>
+  <li>This is still in Beta version so there is no GUI</li>
+  <li>To add the youtubers you want download DB Browser for SQLite and date the super-dl.db</li>
+  <li>Once you add your favorite youtubers and their <a href="http://dev.zype.com/posts/2014/11/04/finding-youtube-channel-id/">channel id</a>  to youtubers table in the super-dl.db</li>
+  <li>Save it and Run the start.sh, This will create a screen season named super-dl and run in the background till the Raspberry Pi is turned off</li>
+</ul>
