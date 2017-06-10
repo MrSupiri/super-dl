@@ -7,8 +7,6 @@ import logging
 out = " "
 err	= " "
 
-
-	
 def downloader():
 	time.sleep(60)
 	logger.debug("Starting Downloader")
