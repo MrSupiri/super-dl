@@ -1,9 +1,9 @@
 import feedparser
-import subprocess
 from datetime import datetime
 import time
 import sqlite3
 import logging
+import os
 
 global out
 global err
@@ -29,18 +29,26 @@ def already_downloaded(url):
 			break
 	return True
 	
-def runcmd(cmd):
-	p = subprocess.Popen(cmd.split(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-	out, err = p.communicate()
-	logger.info('executing cmd - '+cmd)
-	for line in str(out).split("\\n"):
-		if line != "'":
-			logger.info("output - "+line)
-	if err != b'':
-		logger.warn("There was a error while running following command\t\t"+cmd)
-		for line in str(err).split("\\n"):
-			if line != "'":
-				logger.error(line)	
+def run_cmd(cmd):
+	logger.info('executing cmd - ' + cmd)
+	try:
+		f = os.popen(cmd)
+		out = f.read()
+		for line in out.split("\n"):
+			logger.info("output " + line)
+	except Exception as e:
+		logger.critical(str(type(e).__name__) + " : " + str(e))
+	# p = subprocess.Popen(cmd.split(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+	# out, err = p.communicate()
+	# logger.info('executing cmd - '+cmd)
+	# for line in str(out).split("\\n"):
+	# 	if line != "'":
+	# 		logger.info("output - "+line)
+	# if err != b'':
+	# 	logger.warn("There was a error while running following command\t\t"+cmd)
+	# 	for line in str(err).split("\\n"):
+	# 		if line != "'":
+	# 			logger.error(line)
 	
 def movetodone(name,method,url,opt,added_time,path):
 	time = datetime.now().strftime('%X %x')

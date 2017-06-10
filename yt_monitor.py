@@ -1,9 +1,4 @@
-import feedparser
-from datetime import datetime
-import time
-import sqlite3
 from common import *
-import logging
 
 
 def monitor():
