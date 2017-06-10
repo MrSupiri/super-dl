@@ -31,6 +31,11 @@ def downloader():
 						runcmd('youtube-dl '+row[3]+' -o '+row[6].replace(" ","_")+row[1].replace(" ","-")+'.%(ext)s -f 140 -c -w --no-progress')
 					except Exception as e:
 						logger.error(str(type(e).__name__)+" : "+str(e))
+				elif row[2] == "yt-pl":
+					try:
+						runcmd('youtube-dl -o %(playlist)s/%(playlist_index)s - %(title)s.%(ext)s  '+row[3]+' -f 22 -c -w --no-progress')
+					except Exception as e:
+						logger.error(str(type(e).__name__)+" : "+str(e
 				elif row[2] == "wget":
 					try:
 						runcmd("wget "+row[3]+" -P "+row[6]+" "+row[4])
