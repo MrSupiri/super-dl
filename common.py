@@ -4,7 +4,7 @@ import time
 import sqlite3
 import logging
 import os
-
+import re
 global out
 global err
 
@@ -66,6 +66,9 @@ def movetodone(name,method,url,opt,added_time,path):
 		conn.commit()	
 	except Exception as e:
 		logger.error(str(type(e).__name__)+" : "+str(e))
+
+def clear(s):
+    return re.sub('[^A-Za-z0-9 ]+', '', s)
 
 def addtoqueue(name,method,url,path,opt):
 	time = datetime.now().strftime('%X %x')

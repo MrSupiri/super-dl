@@ -12,14 +12,14 @@ def downloader():
 			
 			for row in read_from_db("queue"):
 				if row[2] == "yt-mp4":
-					run_cmd('youtube-dl '+row[3]+' -o "'+row[6].replace(" ","_")+row[1].replace(" ","-")+'_[%(id)s].%(ext)s" -f 22 --max-filesize 250m -c -w --no-progress')
+					run_cmd('youtube-dl -o "{}{} [%(id)s].%(ext)s" {} -f 22 --max-filesize 250m -c -w --no-progress'.format(row[6],clear(row[1]),row[3]))
 					if ("File is larger than max-filesize" in out):
 						logger.info("Lowering Quality Due to Large File Size")
-						run_cmd('youtube-dl '+row[3]+' -o "'+row[6].replace(" ","_")+row[1].replace(" ","-")+'_[%(id)s].%(ext)s" -f 18 --max-filesize 250m -c -w --no-progress')
+						run_cmd('youtube-dl -o "{}{} [%(id)s].%(ext)s" {} -f 18 --max-filesize 250m -c -w --no-progress'.format(row[6], clear(row[1]), row[3]))
 				elif row[2] == "yt-mp3":
-					run_cmd('youtube-dl '+row[3]+' -o "'+row[6].replace(" ","_")+row[1].replace(" ","-")+'_[%(id)s].%(ext)s" -f 140 -c -w --no-progress')
+					run_cmd('youtube-dl -o "{}{} [%(id)s].%(ext)s" {} -f 140 --max-filesize 250m -c -w --no-progress'.format(row[6], clear(row[1]), row[3]))
 				elif row[2] == "yt-pl":
-					run_cmd('youtube-dl -o "'+row[6].replace(" ","_")+'%(playlist)s/%(playlist_index)s-%(title)s_[%(id)s].%(ext)s"  '+row[3]+' -f 22 -c -w --no-progress')
+					run_cmd('youtube-dl -o "{}%(playlist)s/%(playlist_index)s-%(title)s_[%(id)s].%(ext)s" {} -f 22 -c -w --no-progress'.format(row[6], row[3]))
 				elif row[2] == "wget":
 					run_cmd("wget "+row[3]+" -P "+row[6]+" "+row[4])
 				logger.debug('Moving the row from queue table to done table')
