@@ -1,6 +1,5 @@
 from common import *
 
-
 def downloader():
     time.sleep(60)
     logger.debug("Starting Downloader")
