@@ -24,7 +24,6 @@ def monitor():
 			logger.critical(str(type(e).__name__) + " : " + str(e))
 		logger.debug("Connection Closed to Database")
 		logger.debug("Going for 1 Hour Sleep")
-		time.sleep(3600)
-		
+		time.sleep(3600)		
 if __name__=='__main__':
 	monitor()
