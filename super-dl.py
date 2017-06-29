@@ -9,7 +9,6 @@ logger.info("##########################################################")
 logger.info("##################### Starting ###########################")
 logger.info("##########################################################")
 
-
 if __name__=='__main__':
 	logger.info("Waiting 1 mins to Start the Downloader")
 	logger.debug("Connecting to Database to get Queue")
