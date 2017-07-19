@@ -22,8 +22,28 @@ def monitor():
 					logger.debug("Info is already added or not released withing today")
 		except Exception as e:
 			logger.critical(str(type(e).__name__) + " : " + str(e))
+
+		try:
+			for row in read_from_db("torrent"):
+				logger.debug("Getting Info about "+row[2])
+				d = feedparser.parse(row[2])
+				for entry in d['entries']:
+					link = entry['link']
+					title = row[1]
+					if title in str(entry['title']):
+						if (already_torrented(title,link)):
+							logger.debug("Adding Data to DB ")
+							download(entry['title'],"torrent",link,row[3],' ')
+							break
+						else:
+							logger.debug("Info is already added")
+							break
+		except Exception as e:
+			logger.critical(str(type(e).__name__) + " : " + str(e))
+
+
 		logger.debug("Connection Closed to Database")
-		logger.debug("Going for 1 Hour Sleep")
-		time.sleep(3600)		
+		logger.info("Going for 1 Hour Sleep")
+		time.sleep(3600)
 if __name__=='__main__':
 	monitor()
