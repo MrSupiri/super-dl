@@ -14,6 +14,7 @@ def read_from_db(name):
         return c.fetchall()
     except Exception as e:
         logger.critical(str(type(e).__name__) + " : " + str(e))
+        restart = True
 
 
 def already_downloaded(author, url):
@@ -24,6 +25,17 @@ def already_downloaded(author, url):
     else:
         update_last_vid(url, author)
         return True
+
+def already_torrented(series, url):
+    c.execute("SELECT Last_Match FROM torrent WHERE Name = '%s'" % (series))
+    Last_Match = c.fetchone()
+    if str(Last_Match[0]) == str(url):
+        return False
+    else:
+        c.execute("UPDATE torrent SET Last_Match = '%s' WHERE Name = '%s';" % (url, series))
+        conn.commit()
+        return True
+
 
 
 def run_cmd(cmd):
@@ -67,24 +79,14 @@ def connect_db():
         return conn, c
     except Exception as e:
         logger.critical(str(type(e).__name__) + " : " + str(e))
+        restart = True
 
 
 def logger():
-    # logger = logging.getLogger("Logger")
-    # logger.setLevel(logging.DEBUG)
-    # ch = logging.StreamHandler(sys.stdout)
-    # ch.setLevel(logging.DEBUG)
-    # ch = logging.FileHandler('logs/super-dl.log')
-    #
-    # formatter = logging.Formatter(fmt='%(asctime)-10s %(levelname)-10s: %(module)-10s:  %(message)s',
-    #                               datefmt='%Y-%m-%d %H:%M:%S')
-    # ch.setFormatter(formatter)
-    # logger.addHandler(ch)
-
     logFormatter = logging.Formatter(fmt='%(asctime)-10s %(levelname)-10s: %(module)-10s:  %(message)s',
                                    datefmt='%Y-%m-%d %H:%M:%S')
     rootLogger = logging.getLogger()
-    rootLogger.setLevel(logging.DEBUG)
+    rootLogger.setLevel(logging.INFO)
     fileHandler = logging.FileHandler('logs/super-dl.log')
     fileHandler.setFormatter(logFormatter)
     rootLogger.addHandler(fileHandler)
@@ -136,3 +138,5 @@ if os.path.isfile(file_name):
 
 logger = logger()
 conn, c = connect_db()
+
+global restart
